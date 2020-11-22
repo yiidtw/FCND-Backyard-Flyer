@@ -10,12 +10,12 @@ from udacidrone.messaging import MsgID
 
 
 class States(Enum):
-    MANUAL = 0
-    ARMING = 1
-    TAKEOFF = 2
-    WAYPOINT = 3
-    LANDING = 4
-    DISARMING = 5
+    MANUAL = 0 # 0->1  state_callback
+    ARMING = 1 # 1->2 state_callback
+    TAKEOFF = 2 # 2->3 local_position_callback
+    WAYPOINT = 3 # 3->4  local_position_callback
+    LANDING = 4 # 4->5 local_position_callback
+    DISARMING = 5 # 5->0 state_callback
 
 
 class BackyardFlyer(Drone):
@@ -23,7 +23,7 @@ class BackyardFlyer(Drone):
     def __init__(self, connection):
         super().__init__(connection)
         self.target_position = np.array([0.0, 0.0, 0.0])
-        self.all_waypoints = []
+        self.all_waypoints = self.calculate_box()
         self.in_mission = True
         self.check_state = {}
 
@@ -64,7 +64,14 @@ class BackyardFlyer(Drone):
         
         1. Return waypoints to fly a box
         """
-        pass
+        print("Setting Path")
+        side, height = 15.0, 5.0
+        return [
+            [side, 0.0, height], 
+            [side, side, height], 
+            [0.0, side, height], 
+            [0.0, 0.0, height]
+        ]
 
     def arming_transition(self):
         """TODO: Fill out this method
