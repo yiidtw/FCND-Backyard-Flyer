@@ -136,6 +136,9 @@ class BackyardFlyer(Drone):
         2. Transition to the DISARMING state
         """
         print("disarm transition")
+        self.disarm()
+        self.release_control()
+        self.flight_state = States.DISARMING
 
     def manual_transition(self):
         """This method is provided
