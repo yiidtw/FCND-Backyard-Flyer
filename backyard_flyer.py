@@ -60,6 +60,8 @@ class BackyardFlyer(Drone):
         if self.in_mission:
             if self.flight_state == States.MANUAL:
                 self.arming_transition()
+            elif self.flight_state == States.ARMING and self.armed:
+                self.takeoff_transition()
 
     def calculate_box(self):
         """TODO: Fill out this method
