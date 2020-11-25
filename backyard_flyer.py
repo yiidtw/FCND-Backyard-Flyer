@@ -51,6 +51,10 @@ class BackyardFlyer(Drone):
                 else:
                     if np.linalg.norm(self.local_velocity[0:2]) < 1.0:
                         self.landing_transition()
+        elif self.flight_state == States.LANDING:
+            if np.linalg.norm(self.global_position[0:1] - self.global_home[0:1]) < 0.5: 
+                if abs(self.local_position[2]) < 0.01:
+                    self.disarming_transition()
 
     def velocity_callback(self):
         """
